@@ -52,7 +52,6 @@ const operate = function(first, second, operator) {
 
 const updateScreen = function(value = '0') {
     screen.textContent = value;
-    logging();
 }
 
 const addnumber = function(value) {
