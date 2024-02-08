@@ -20,7 +20,7 @@ html, body {
     max-width: 30em;
 }
 #calculatorScreen {
-    background-color: #999;
+    background-color: #EEE;
     font-size: 2em;
     padding: .5em;
     margin: 0 0 .5em;
@@ -52,6 +52,6 @@ html, body {
 button#clear {
     background-color: orange;
 }
-button#equals {
+button#calculate {
     background-color: #EEE;
 }
