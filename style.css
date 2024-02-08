@@ -77,10 +77,10 @@ button#calculate {
 button#calculate:active {
     background-color: #FFF;
 }
-button.calc {
+button.operator {
     background-color: #111;
     color: #FFF;
 }
-button.calc:active {
+button.operator:active {
     background-color: #222;
 }
