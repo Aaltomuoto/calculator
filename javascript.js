@@ -1,7 +1,7 @@
 let fNum = null,
     sNum = null,
     operator = null,
-    display = '0';
+    display = 0;
 
 
 const screen = document.querySelector('#calculatorScreen');
@@ -11,23 +11,23 @@ const clearButton = document.querySelector('#clear');
 const calculateButton = document.querySelector('#calculate');
 
 const add = function(a, b) {
-    return +a + +b;
+    return a + b;
 };
 
 const subtract = function(a, b) {
-    return +a - +b;
+    return a - b;
 };
 
 const multiply = function(a, b) {
-    return +a * +b;
+    return a * b;
 };
 
 const divide = function(a, b) {
-    return +a / +b;
+    return a / b;
 };
 
-const operate = function(fNum, sNum, operator) {
-    let result;
+const operate = function(first, second, operator) {
+    let result = 'Error';
     switch(operator) {
         case 'add':
             result = add(fNum, sNum);
@@ -44,28 +44,45 @@ const operate = function(fNum, sNum, operator) {
         
     }
     clear();
+    fNum = result;
+    display = result;
     updateScreen(result);
+
 };
 
 const updateScreen = function(value = '0') {
-    //if (display === '0' && value === '0') return
-    display = (display === '0') ? value : display + value;
-    screen.textContent = display;
+    screen.textContent = value;
+    logging();
 }
 
 const addnumber = function(value) {
-    console.log(`Add number: ${value}`);
-    updateScreen(value);
+    display = (display === 0) ? value : display + value;
+    updateScreen(display);
 }
 
 const clear = function () {
-    display = '0';
-    updateScreen();
+    display = 0;
     operator = null;
     fNum = null;
     sNum = null;
+    updateScreen();
 }
-
+const setOperator = function(btnOperator) {
+    if (fNum === null) {
+        operator = btnOperator;
+        fNum = parseFloat(display);
+        updateScreen(display);
+        display = 0;
+        console.log('isnull')
+    } else {
+    // }
+        sNum = parseFloat(display);
+        operate(fNum, sNum, operator);
+        operator = btnOperator;
+        display = 0;
+        console.log('notnull')
+    }
+}
 // add eventlisteners to buttons
 numberButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -74,20 +91,17 @@ numberButtons.forEach((button) => {
 });
 
 operatorButtons.forEach((button) => {
-    button.addEventListener('click', (e) => {
-        operator = button.dataset.operator;
-        fNum = display;
-        display ='0';
-        updateScreen(display);
+    button.addEventListener('click', () => {
+        setOperator(button.dataset.operator);
     });
 });
 
 clearButton.addEventListener('click', clear);
 
 calculateButton.addEventListener('click', () => {
-    if (fNum) {
+    if (fNum !== null) {
         console.log('operate');
-        sNum = display;
+        sNum = parseFloat(display);
         operate(fNum, sNum, operator);
     } else {
         clear();
