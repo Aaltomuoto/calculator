@@ -17,7 +17,7 @@ html, body {
     background-color: #444;
     padding:3em;
     border-radius: 1em;
-    max-width: 30em;
+    width: 30em;
 }
 #calculatorScreen {
     background-color: #EEE;
@@ -26,20 +26,16 @@ html, body {
     margin: 0 0 .5em;
     font-family: monospace;
     border-radius: .125em;
+    overflow: hidden;
 }
 #calculatorButtons {
-    --cols: 3;
-    --gap: 1em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--gap);
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 0px;
 }
 #calculatorButtons button {
-    flex-basis: calc(100% / var(--cols) - var(--gap) / var(--cols) * (var(--cols) - 2));
-    flex-grow: 0;
-    flex-shrink: 0;
     font-family: sans-serif;
     font-size: 2em;
     font-weight: 700;
@@ -47,11 +43,44 @@ html, body {
     padding:.5em .75em;
     margin: 0;
     border-radius: .125em;
+    flex-basis: 25%;
+}
+#buttonsLeft, #buttonsRight {
+    display: grid;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+#buttonsLeft {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+#buttonsRight {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+}
+button.number {
     background-color: #BBB;
 }
+button.number:active {
+    background-color: #CCC;
+}
 button#clear {
-    background-color: orange;
+    background-color: #FA0;
+}
+button#clear:active {
+    background-color: #FB0;
 }
 button#calculate {
     background-color: #EEE;
+}
+button#calculate:active {
+    background-color: #FFF;
+}
+button.calc {
+    background-color: #111;
+    color: #FFF;
+}
+button.calc:active {
+    background-color: #222;
 }
