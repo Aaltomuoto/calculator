@@ -26,6 +26,7 @@ html, body {
     margin: 0 0 .5em;
     font-family: monospace;
     border-radius: .125em;
+    text-align: right;
     overflow: hidden;
 }
 #calculatorButtons {
