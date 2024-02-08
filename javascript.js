@@ -1,7 +1,7 @@
 let fNum = null,
     sNum = null,
     operator = null,
-    display = 0;
+    displayValue = 0;
 
 
 const screen = document.querySelector('#calculatorScreen');
@@ -9,6 +9,10 @@ const numberButtons = document.querySelectorAll('#calculatorButtons button.numbe
 const operatorButtons = document.querySelectorAll('#calculatorButtons button.operator');
 const clearButton = document.querySelector('#clear');
 const calculateButton = document.querySelector('#calculate');
+
+const logging = function(where = 'unknown') {
+    console.log({'where': where,'fNum':fNum,'sNum':sNum,'operator':operator,'displayValue':displayValue});
+}
 
 const add = function(a, b) {
     return a + b;
@@ -45,41 +49,45 @@ const operate = function(first, second, operator) {
     }
     clear();
     fNum = result;
-    display = result;
+    displayValue = 0;
     updateScreen(result);
-
+    logging('operate');
 };
 
-const updateScreen = function(value = '0') {
+const updateScreen = function(value = 0) {
     screen.textContent = value;
+    logging('updatescreen');
 }
 
 const addnumber = function(value) {
-    display = (display === 0) ? value : display + value;
-    updateScreen(display);
+    displayValue = (displayValue === 0) ? value : displayValue + value;
+    fNum = (operator === null) ? null : fNum;
+    updateScreen(displayValue);
 }
 
 const clear = function () {
-    display = 0;
+    displayValue = 0;
     operator = null;
     fNum = null;
     sNum = null;
-    updateScreen();
+    updateScreen(displayValue);
 }
 const setOperator = function(btnOperator) {
     if (fNum === null) {
         operator = btnOperator;
-        fNum = parseFloat(display);
-        updateScreen(display);
-        display = 0;
-        console.log('isnull')
-    } else {
-    // }
-        sNum = parseFloat(display);
+        fNum = parseFloat(displayValue);
+        updateScreen(displayValue);
+        displayValue = 0;
+        logging('setOperator Null');
+    } else if (operator) {
+        sNum = parseFloat(displayValue);
         operate(fNum, sNum, operator);
         operator = btnOperator;
-        display = 0;
-        console.log('notnull')
+        displayValue = 0;
+        logging('setOperator operator');
+    } else {
+        operator = btnOperator;
+        logging('setOperator else');
     }
 }
 // add eventlisteners to buttons
@@ -99,8 +107,7 @@ clearButton.addEventListener('click', clear);
 
 calculateButton.addEventListener('click', () => {
     if (fNum !== null) {
-        console.log('operate');
-        sNum = parseFloat(display);
+        sNum = parseFloat(displayValue);
         operate(fNum, sNum, operator);
     } else {
         clear();
