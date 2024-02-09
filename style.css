@@ -17,7 +17,6 @@ html, body {
     background-color: #444;
     padding:3em;
     border-radius: 1em;
-    width: 30em;
 }
 #screen {
     background-color: #EEE;
@@ -31,12 +30,13 @@ html, body {
 }
 #btnContainer {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr repeat(2, 1fr);
     grid-template-rows: 1fr;
     grid-column-gap: 1em;
     grid-row-gap: 0px;
 }
 #btnContainer button {
+    display: block;
     font-family: sans-serif;
     font-size: 2em;
     font-weight: 700;
@@ -44,21 +44,34 @@ html, body {
     padding:.5em .75em;
     margin: 0;
     border-radius: .125em;
-    flex-basis: 25%;
-}
-#btnLeft, #btnRight {
-    display: grid;
-    grid-column-gap: 1em;
-    grid-row-gap: 1em;
+    width: 2.5em;
+    height: 2.5em;
 }
 #btnLeft {
+    width:17em;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
 }
-#btnRight {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
+#btnMid, #btnRight {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content:end;
+}
+#btnMid button, #btnRight button {
+    margin-top: .5em;
+}
+#btnMid button:first-child, #btnRight button:first-child {
+    margin-top: 0;
+}
+button {
+    background-color: #EFEFEF;
+}
+button:active {
+    background-color: #FFF;
 }
 button.numBtn {
     background-color: #BBB;
@@ -73,7 +86,9 @@ button#clearBtn:active {
     background-color: #FB0;
 }
 button#calcBtn {
-    background-color: #EEE;
+    height: 5.5em;
+    background-color: #008000;
+    color:#FFF;
 }
 button#calcBtn:active {
     background-color: #FFF;
