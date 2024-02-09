@@ -57,7 +57,6 @@ const operate = function(first, second, theOperator) {
     newLine = true;
     updateScreen(result);
     calculated = true;
-    logging('operate');
 };
 
 const updateScreen = function(value = 0) {
@@ -65,11 +64,16 @@ const updateScreen = function(value = 0) {
 }
 
 const addnumber = function(value) {
-    logging('addNumber before');
     let displayValue = (newLine) ? value : screen.textContent + value;
-    if (newLine) newLine = false;
+    if (newLine) {
+        newLine = false;
+        if (calculated) {
+            fNum = null;
+            sNum = null;
+            operator = null;
+        }
+    }
     updateScreen(displayValue);
-    logging('addNumber after');
 }
 
 const clear = function () {
@@ -79,10 +83,8 @@ const clear = function () {
     newLine = true;
     calculated = false;
     updateScreen();
-    logging('setOperator clear');
 }
 const setOperator = function(btnOperator) {
-    logging('setOperator start');
     if (operator === btnOperator && newLine) {
         operate(fNum, sNum, operator);
     } else {
@@ -99,7 +101,6 @@ const setOperator = function(btnOperator) {
         }
     }
     if (calculated) calculated = false;
-    logging('setOperator end');
 }
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
