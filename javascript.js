@@ -1,8 +1,8 @@
 let fNum = null,
     sNum = null,
     operator = null,
-    displayValue = 0,
-    newLine = true;
+    newLine = true,
+    calculated = false;
 
 
 const screen = document.querySelector('#screen');
@@ -12,7 +12,12 @@ const clearBtn = document.querySelector('#clearBtn');
 const calcBtn = document.querySelector('#calcBtn');
 
 const logging = function(where = 'unknown') {
-    console.table({'where': where,'fNum':fNum,'sNum':sNum,'operator':operator,'displayValue':displayValue,'newLine':newLine});
+    console.table({'where': where,
+        'fNum':fNum,
+        'sNum':sNum,
+        'operator':operator,
+        'newLine':newLine, 
+        'calculated':calculated});
 }
 
 const add = function(a, b) {
@@ -31,27 +36,27 @@ const divide = function(a, b) {
     return a / b;
 };
 
-const operate = function(first, second, operator) {
+const operate = function(first, second, theOperator) {
     let result = 'Error';
-    switch(operator) {
+    switch(theOperator) {
         case 'add':
-            result = add(fNum, sNum);
+            result = add(first, second);
             break;
         case 'subtract':
-            result = subtract(fNum, sNum);
+            result = subtract(first, second);
             break;
         case 'multiply':
-            result = multiply(fNum, sNum);
+            result = multiply(first, second);
             break;
         case 'divide':
-            result = divide(fNum, sNum);
+            result = divide(first, second);
             break;
         
     }
-    clear();
     fNum = result;
-    // displayValue = 0;
+    newLine = true;
     updateScreen(result);
+    calculated = true;
     logging('operate');
 };
 
@@ -61,44 +66,40 @@ const updateScreen = function(value = 0) {
 
 const addnumber = function(value) {
     logging('addNumber before');
-    displayValue = (newLine) ? value : displayValue + value;
+    let displayValue = (newLine) ? value : screen.textContent + value;
     if (newLine) newLine = false;
-    // fNum = (operator === null) ? null : fNum;
     updateScreen(displayValue);
     logging('addNumber after');
 }
 
 const clear = function () {
-    displayValue = 0;
     operator = null;
     fNum = null;
     sNum = null;
     newLine = true;
-    updateScreen(displayValue);
+    calculated = false;
+    updateScreen();
     logging('setOperator clear');
 }
 const setOperator = function(btnOperator) {
     logging('setOperator start');
-    newLine = true;
-    operator = btnOperator;
-    fNum = parseFloat(screen.textContent);
+    if (operator === btnOperator && newLine) {
+        operate(fNum, sNum, operator);
+    } else {
+        if(!operator) operator = btnOperator;
+        newLine = true;
+        if (fNum === null) {
+            fNum = parseFloat(screen.textContent);
+        } else if (calculated) {
+            operator = btnOperator;
+        } else {
+            sNum = parseFloat(screen.textContent);
+            operate(fNum, sNum, operator);
+            operator = btnOperator;
+        }
+    }
+    if (calculated) calculated = false;
     logging('setOperator end');
-    // if (fNum === null) {
-    //     operator = btnOperator;
-    //     fNum = parseFloat(displayValue);
-    //     updateScreen(displayValue);
-    //     displayValue = 0;
-    //     logging('setOperator Null fNum');
-    // } else if (operator) {
-    //     sNum = parseFloat(displayValue);
-    //     operate(fNum, sNum, operator);
-    //     operator = btnOperator;
-    //     displayValue = 0;
-    //     logging('setOperator operator');
-    // } else {
-    //     operator = btnOperator;
-    //     logging('setOperator else');
-    // }
 }
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
@@ -117,7 +118,7 @@ clearBtn.addEventListener('click', clear);
 
 calcBtn.addEventListener('click', () => {
     if (fNum !== null) {
-        sNum = parseFloat(displayValue);
+        if (!calculated) sNum = parseFloat(screen.textContent);
         operate(fNum, sNum, operator);
     } else {
         clear();
