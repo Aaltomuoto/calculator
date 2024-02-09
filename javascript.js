@@ -5,11 +5,11 @@ let fNum = null,
     newLine = true;
 
 
-const screen = document.querySelector('#calculatorScreen');
-const numberButtons = document.querySelectorAll('#calculatorButtons button.number');
-const operatorButtons = document.querySelectorAll('#calculatorButtons button.operator');
-const clearButton = document.querySelector('#clear');
-const calculateButton = document.querySelector('#calculate');
+const screen = document.querySelector('#screen');
+const numBtn = document.querySelectorAll('#btnContainer button.numBtn');
+const opBtn = document.querySelectorAll('#btnContainer button.opBtn');
+const clearBtn = document.querySelector('#clearBtn');
+const calcBtn = document.querySelector('#calcBtn');
 
 const logging = function(where = 'unknown') {
     console.table({'where': where,'fNum':fNum,'sNum':sNum,'operator':operator,'displayValue':displayValue,'newLine':newLine});
@@ -81,7 +81,7 @@ const setOperator = function(btnOperator) {
     logging('setOperator start');
     newLine = true;
     operator = btnOperator;
-    fNum = parseFloat(display.textContent);
+    fNum = parseFloat(screen.textContent);
     logging('setOperator end');
     // if (fNum === null) {
     //     operator = btnOperator;
@@ -101,21 +101,21 @@ const setOperator = function(btnOperator) {
     // }
 }
 // add eventlisteners to buttons
-numberButtons.forEach((button) => {
+numBtn.forEach((button) => {
     button.addEventListener('click', (e) => {
         addnumber(button.textContent);
     });
 });
 
-operatorButtons.forEach((button) => {
+opBtn.forEach((button) => {
     button.addEventListener('click', () => {
         setOperator(button.dataset.operator);
     });
 });
 
-clearButton.addEventListener('click', clear);
+clearBtn.addEventListener('click', clear);
 
-calculateButton.addEventListener('click', () => {
+calcBtn.addEventListener('click', () => {
     if (fNum !== null) {
         sNum = parseFloat(displayValue);
         operate(fNum, sNum, operator);
