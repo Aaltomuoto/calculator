@@ -52,9 +52,7 @@ const operate = function(first, second, theOperator) {
             result = multiply(first, second);
             break;
         case 'divide':
-            if (second !== 0) {
-                result = divide(first, second);
-            }
+            result = (second !== 0) ? divide(first, second) : result;
             break;
         
     }
