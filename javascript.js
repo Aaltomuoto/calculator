@@ -37,21 +37,26 @@ const divide = function(a, b) {
 };
 
 const operate = function(first, second, theOperator) {
+    logging('operate start');
+    if (screen.textContent === 'Error') return;
     let result = 'Error';
-    switch(theOperator) {
-        case 'add':
-            result = add(first, second);
-            break;
-        case 'subtract':
-            result = subtract(first, second);
-            break;
-        case 'multiply':
-            result = multiply(first, second);
-            break;
-        case 'divide':
-            result = divide(first, second);
-            break;
-        
+    if (first === 0 && second === 0 & theOperator === 'divide') {
+    } else {
+        switch(theOperator) {
+            case 'add':
+                result = add(first, second);
+                break;
+            case 'subtract':
+                result = subtract(first, second);
+                break;
+            case 'multiply':
+                result = multiply(first, second);
+                break;
+            case 'divide':
+                result = divide(first, second);
+                break;
+            
+        }
     }
     fNum = result;
     newLine = true;
@@ -64,6 +69,8 @@ const updateScreen = function(value = 0) {
 }
 
 const addnumber = function(value) {
+    logging('addNumber start');
+    if (screen.textContent === 'Error') clear();
     let displayValue = (newLine) ? value : screen.textContent + value;
     if (newLine) {
         newLine = false;
@@ -74,6 +81,7 @@ const addnumber = function(value) {
         }
     }
     updateScreen(displayValue);
+    logging('addNumber end');
 }
 
 const clear = function () {
@@ -85,7 +93,9 @@ const clear = function () {
     updateScreen();
 }
 const setOperator = function(btnOperator) {
-    if (operator === btnOperator && newLine) {
+    logging('setOperator start');
+    if (screen.textContent === 'Error') return;
+    if (operator === btnOperator && newLine & sNum) {
         operate(fNum, sNum, operator);
     } else {
         if(!operator) operator = btnOperator;
@@ -101,6 +111,7 @@ const setOperator = function(btnOperator) {
         }
     }
     if (calculated) calculated = false;
+    logging('setOperator end');
 }
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
