@@ -4,12 +4,14 @@ let fNum = null,
     newLine = true,
     calculated = false;
 
-
 const screen = document.querySelector('#screen');
 const numBtn = document.querySelectorAll('#btnContainer button.numBtn');
 const opBtn = document.querySelectorAll('#btnContainer button.opBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const calcBtn = document.querySelector('#calcBtn');
+const decBtn = document.querySelector('#decBtn');
+const delBtn = document.querySelector('#delBtn');
+const minBtn = document.querySelector('#minBtn')
 
 const logging = function(where = 'unknown') {
     console.table({'where': where,
@@ -112,6 +114,18 @@ const setOperator = function(btnOperator) {
     if (calculated) calculated = false;
     logging('setOperator end');
 }
+
+const removeNumber = function() {
+    console.log('Remove');
+}
+
+const addDecimal = function() {
+    console.log('Decimal');
+}
+
+const toggleMinus = function() {
+    console.log('Minus');
+}
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -135,3 +149,9 @@ calcBtn.addEventListener('click', () => {
         clear();
     }
 });
+
+decBtn.addEventListener('click', addDecimal);
+
+delBtn.addEventListener('click', removeNumber);
+
+minBtn.addEventListener('click', toggleMinus);
