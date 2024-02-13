@@ -69,6 +69,7 @@ const updateScreen = function(value = 0) {
 
 const addnumber = function(value) {
     logging('addNumber start');
+    if (value === '0' && screen.textContent === '0') return;
     if (screen.textContent === 'Error') clear();
     let displayValue = (newLine) ? value : screen.textContent + value;
     if (newLine) {
