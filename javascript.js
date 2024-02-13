@@ -40,22 +40,23 @@ const operate = function(first, second, theOperator) {
     logging('operate start');
     if (screen.textContent === 'Error') return;
     let result = 'Error';
-    if (second !== 0 & theOperator !== 'divide') {
-        switch(theOperator) {
-            case 'add':
-                result = add(first, second);
-                break;
-            case 'subtract':
-                result = subtract(first, second);
-                break;
-            case 'multiply':
-                result = multiply(first, second);
-                break;
-            case 'divide':
+
+    switch(theOperator) {
+        case 'add':
+            result = add(first, second);
+            break;
+        case 'subtract':
+            result = subtract(first, second);
+            break;
+        case 'multiply':
+            result = multiply(first, second);
+            break;
+        case 'divide':
+            if (second !== 0) {
                 result = divide(first, second);
-                break;
-            
-        }
+            }
+            break;
+        
     }
     fNum = result;
     newLine = true;
