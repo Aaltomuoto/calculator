@@ -96,20 +96,12 @@ const clear = function () {
 const setOperator = function(btnOperator) {
     logging('setOperator start');
     if (screen.textContent === 'Error') return;
-    if (operator === btnOperator && newLine & sNum) {
-        operate(fNum, sNum, operator);
+    if(!operator) operator = btnOperator;
+    newLine = true;
+    if (fNum === null) {
+        fNum = parseFloat(screen.textContent);
     } else {
-        if(!operator) operator = btnOperator;
-        newLine = true;
-        if (fNum === null) {
-            fNum = parseFloat(screen.textContent);
-        } else if (calculated) {
-            operator = btnOperator;
-        } else {
-            sNum = parseFloat(screen.textContent);
-            operate(fNum, sNum, operator);
-            operator = btnOperator;
-        }
+        operator = btnOperator;
     }
     if (calculated) calculated = false;
     logging('setOperator end');
@@ -120,6 +112,7 @@ const removeNumber = function() {
 }
 
 const toggleMinus = function() {
+    logging('toggleMinus start');
     if (screen.textContent === '0') return;
     let screenArr = screen.textContent.split('');
     if (screenArr[0] === '-') {
@@ -128,6 +121,8 @@ const toggleMinus = function() {
         screenArr.unshift('-');
     }
     screen.textContent = screenArr.join('');
+    if (fNum && newLine) fNum = +screen.textContent;
+    logging('toggleMinus end');
 }
 
 // add eventlisteners to buttons
