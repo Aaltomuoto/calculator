@@ -120,8 +120,16 @@ const removeNumber = function() {
 }
 
 const toggleMinus = function() {
-    console.log('Minus');
+    if (screen.textContent === '0') return;
+    let screenArr = screen.textContent.split('');
+    if (screenArr[0] === '-') {
+        screenArr.shift();
+    } else {
+        screenArr.unshift('-');
+    }
+    screen.textContent = screenArr.join('');
 }
+
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
     button.addEventListener('click', (e) => {
