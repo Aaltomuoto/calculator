@@ -40,8 +40,7 @@ const operate = function(first, second, theOperator) {
     logging('operate start');
     if (screen.textContent === 'Error') return;
     let result = 'Error';
-    if (first === 0 && second === 0 & theOperator === 'divide') {
-    } else {
+    if (second !== 0 & theOperator !== 'divide') {
         switch(theOperator) {
             case 'add':
                 result = add(first, second);
