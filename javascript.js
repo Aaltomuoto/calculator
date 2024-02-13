@@ -109,6 +109,15 @@ const setOperator = function(btnOperator) {
 
 const removeNumber = function() {
     console.log('Remove');
+    if (screen.textContent === '0') return;
+    let screenArr = screen.textContent.split('');
+    if (screenArr.length > 1) { 
+        screenArr.pop();
+    } else {
+        screenArr = ['0'];
+    }
+    screen.textContent = screenArr.join('');
+    if (fNum && newLine) fNum = +screen.textContent;
 }
 
 const toggleMinus = function() {
