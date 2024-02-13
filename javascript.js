@@ -68,11 +68,11 @@ const updateScreen = function(value = 0) {
     screen.textContent = value;
 }
 
-const addnumber = function(value) {
+const addNumber = function(value) {
     logging('addNumber start');
     if (value === '0' && screen.textContent === '0') return;
     if (screen.textContent === 'Error') clear();
-    let displayValue = (newLine) ? value : screen.textContent + value;
+    let displayValue = (newLine && value !== '.') ? value : screen.textContent + value;
     if (newLine) {
         newLine = false;
         if (calculated) {
@@ -119,17 +119,13 @@ const removeNumber = function() {
     console.log('Remove');
 }
 
-const addDecimal = function() {
-    console.log('Decimal');
-}
-
 const toggleMinus = function() {
     console.log('Minus');
 }
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
     button.addEventListener('click', (e) => {
-        addnumber(button.textContent);
+        addNumber(button.textContent);
     });
 });
 
@@ -150,7 +146,9 @@ calcBtn.addEventListener('click', () => {
     }
 });
 
-decBtn.addEventListener('click', addDecimal);
+decBtn.addEventListener('click', (button) => {
+    addNumber('.');
+});
 
 delBtn.addEventListener('click', removeNumber);
 
