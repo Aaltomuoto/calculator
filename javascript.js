@@ -15,6 +15,7 @@ const minBtn = document.querySelector('#minBtn')
 
 const logging = function(where = 'unknown') {
     console.table({'where': where,
+        'screen':screen.textContent,
         'fNum':fNum,
         'sNum':sNum,
         'operator':operator,
@@ -108,16 +109,17 @@ const setOperator = function(btnOperator) {
 }
 
 const removeNumber = function() {
-    console.log('Remove');
+    logging('removeNumber start');
     if (screen.textContent === '0') return;
     let screenArr = screen.textContent.split('');
     if (screenArr.length > 1) { 
         screenArr.pop();
     } else {
-        screenArr = ['0'];
+        screenArr = [0];
+        newLine = true;
     }
     screen.textContent = screenArr.join('');
-    if (fNum && newLine) fNum = +screen.textContent;
+    logging('removeNumber end');
 }
 
 const toggleMinus = function() {
