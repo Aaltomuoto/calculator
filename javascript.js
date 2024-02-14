@@ -160,6 +160,7 @@ const removeNumber = function() {
         newLine = true;
     }
     screen.textContent = screenArr.join('');
+    fNum = (fNum) ? +screenArr.join('') : fNum;
     logging('removeNumber end');
 }
 
