@@ -1,3 +1,4 @@
+/*
 let fNum = null,
     sNum = null,
     operator = null,
@@ -5,16 +6,88 @@ let fNum = null,
     calculated = false,
     activeBtn,
     theBtn;
+*/
+let operator = null,
+    previousValue = '',
+    currentValue = '';
 
-const screen = document.querySelector('#screen');
-const numBtn = document.querySelectorAll('#btnContainer button.numBtn');
-const opBtn = document.querySelectorAll('#btnContainer button.opBtn');
-const clearBtn = document.querySelector('#clearBtn');
-const calcBtn = document.querySelector('#calcBtn');
-const decBtn = document.querySelector('#decBtn');
-const delBtn = document.querySelector('#delBtn');
-const minBtn = document.querySelector('#minBtn')
+document.addEventListener('DOMContentLoaded', function() {
+    const currentScreen = document.querySelector('.current');
+    const prevScreen = document.querySelector('.previous');
+    const numBtn = document.querySelectorAll('#btnContainer button.numBtn');
+    const opBtn = document.querySelectorAll('#btnContainer button.opBtn');
+    const clearBtn = document.querySelector('#clearBtn');
+    const calcBtn = document.querySelector('#calcBtn');
+    const decBtn = document.querySelector('#decBtn');
+    const delBtn = document.querySelector('#delBtn');
+    const minBtn = document.querySelector('#minBtn')
 
+    numBtn.forEach((number) => number.addEventListener('click', (e) => {
+        handleNumber(e.target.textContent);
+        currentScreen.textContent = currentValue;
+    }));
+
+    opBtn.forEach((op) => {
+        op.addEventListener('click', () => {
+            handleOperator(op.dataset.operator);
+            prevScreen.textContent = previousValue;
+            currentScreen.textContent = currentValue;
+        })
+    });
+
+    clearBtn.addEventListener('click', () => {
+        previousValue = '';
+        currentValue = '';
+        operator = '';
+        prevScreen.textContent = currentValue;
+        currentScreen.textContent = currentValue;
+    });
+
+    calcBtn.addEventListener('click', () => {
+        calculate()
+        prevScreen.textContent = '';
+        currentScreen.textContent = currentValue;
+    });
+});
+
+function handleNumber(num) {
+   if (currentValue.length <=10) currentValue += num;
+}
+
+function handleOperator(op) {
+    operator = op;
+    previousValue = currentValue;
+    currentValue = '';
+}
+
+function calculate() {
+    previousValue = Number(previousValue);
+    currentValue = Number(currentValue);
+
+    switch(operator) {
+        case 'add':
+            previousValue += currentValue;
+            break;
+        case 'subtract':
+            previousValue -= currentValue;
+            break;
+        case 'multiply':
+            previousValue *= currentValue;
+            break;
+        case 'divide':
+            previousValue /= currentValue;
+            break;
+    }
+    previousValue = roundNumber(previousValue);
+    previousValue = previousValue.toString();
+    currentValue = previousValue;
+    console.log(previousValue)
+}
+
+function roundNumber(num) {
+    return Math.round(num * 1000) / 1000;
+}
+/*
 const logging = function(where = 'unknown') {
     console.table({'where': where,
         'screen':screen.textContent,
@@ -198,3 +271,4 @@ decBtn.addEventListener('click', (button) => {
 delBtn.addEventListener('click', removeNumber);
 
 minBtn.addEventListener('click', toggleMinus);
+*/
