@@ -61,8 +61,9 @@ const operate = function(first, second, theOperator) {
     }
     fNum = result;
     newLine = true;
-    updateScreen(result);
     calculated = true;
+    updateScreen(result);
+    logging('operate end');
 };
 
 const updateScreen = function(value = 0) {
@@ -85,25 +86,65 @@ const addNumber = function(value) {
     updateScreen(displayValue);
     logging('addNumber end');
 }
-
-const clear = function () {
+const clearOpBtn = function() {
+    opBtn.forEach(button => {
+        button.classList.remove('active');
+    });
+}
+const clear = function() {
     operator = null;
     fNum = null;
     sNum = null;
     newLine = true;
     calculated = false;
+    clearOpBtn();
     updateScreen();
+    logging('clear');
 }
 const setOperator = function(btnOperator) {
     logging('setOperator start');
     if (screen.textContent === 'Error') return;
-    if(!operator) operator = btnOperator;
-    newLine = true;
-    if (fNum === null) {
-        fNum = parseFloat(screen.textContent);
+    
+    let activeBtn = document.querySelector('.opBtn.active');
+    let theBtn = document.querySelector(`button[data-operator='${btnOperator}']`);
+    if (activeBtn) activeBtn.classList.remove('active');
+    theBtn.classList.add('active');
+
+    if (!operator) {
+        operator = btnOperator;
+        newLine = true;
+        fNum = +screen.textContent;
     } else {
+        if (fNum && !calculated) {
+            sNum = parseFloat(screen.textContent);
+            operate(fNum, sNum, operator);
+        }
         operator = btnOperator;
     }
+
+    // if (operator === btnOperator && newLine & sNum) {
+    //     operate(fNum, sNum, operator);
+    // } else {
+    //     if(!operator) operator = btnOperator;
+    //     newLine = true;
+    //     if (fNum === null) {
+    //         fNum = parseFloat(screen.textContent);
+    //     } else if (calculated) {
+    //         operator = btnOperator;
+    //         console.log('WHATTTTTT')
+    //     } else {
+    //         sNum = (sNum !== parseFloat(screen.textContent)) ? parseFloat(screen.textContent) : sNum;
+    //         operate(fNum, sNum, operator);
+    //         operator = btnOperator;
+    //     }
+    // }
+    //if(!operator) operator = btnOperator;
+    // newLine = true;
+    // if (fNum === null) {
+    //     fNum = parseFloat(screen.textContent);
+    // } else {
+    //     operator = btnOperator;
+    // }
     if (calculated) calculated = false;
     logging('setOperator end');
 }
@@ -155,6 +196,7 @@ calcBtn.addEventListener('click', () => {
     if (fNum !== null) {
         if (!calculated) sNum = parseFloat(screen.textContent);
         operate(fNum, sNum, operator);
+        clearOpBtn();
     } else {
         clear();
     }
