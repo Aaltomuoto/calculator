@@ -2,7 +2,9 @@ let fNum = null,
     sNum = null,
     operator = null,
     newLine = true,
-    calculated = false;
+    calculated = false,
+    activeBtn,
+    theBtn;
 
 const screen = document.querySelector('#screen');
 const numBtn = document.querySelectorAll('#btnContainer button.numBtn');
@@ -40,7 +42,7 @@ const divide = function(a, b) {
 };
 
 const operate = function(first, second, theOperator) {
-    logging('operate start');
+    if (!first || !second || !theOperator) return;
     if (screen.textContent === 'Error') return;
     let result = 'Error';
 
@@ -57,13 +59,26 @@ const operate = function(first, second, theOperator) {
         case 'divide':
             result = (second !== 0) ? divide(first, second) : result;
             break;
-        
+    }
+    // limit the result to 3 decimal points
+    result = result.toFixed(3);
+    //remove trailing zeroes from results
+    let resultArr = result.split('');
+    if (resultArr.indexOf('.') > -1) {
+        for (let i = resultArr.length-1; i > 0; i--) {
+            if (resultArr[i] === '0') {
+                 resultArr.pop();
+            } else {
+                break;
+            }
+        }
+        result = +resultArr.join('');
     }
     fNum = result;
     newLine = true;
     calculated = true;
-    updateScreen(result);
-    logging('operate end');
+    updateScreen(fNum);
+    logging('calculated');
 };
 
 const updateScreen = function(value = 0) {
@@ -71,7 +86,6 @@ const updateScreen = function(value = 0) {
 }
 
 const addNumber = function(value) {
-    logging('addNumber start');
     if (value === '0' && screen.textContent === '0') return;
     if (screen.textContent === 'Error') clear();
     let displayValue = (newLine && value !== '.') ? value : screen.textContent + value;
@@ -84,7 +98,6 @@ const addNumber = function(value) {
         }
     }
     updateScreen(displayValue);
-    logging('addNumber end');
 }
 const clearOpBtn = function() {
     opBtn.forEach(button => {
@@ -104,12 +117,11 @@ const clear = function() {
 const setOperator = function(btnOperator) {
     logging('setOperator start');
     if (screen.textContent === 'Error') return;
-    
-    let activeBtn = document.querySelector('.opBtn.active');
-    let theBtn = document.querySelector(`button[data-operator='${btnOperator}']`);
+    activeBtn = document.querySelector('.opBtn.active');
+    theBtn = document.querySelector(`button[data-operator='${btnOperator}']`);
+    if (activeBtn === theBtn && newLine) return;
     if (activeBtn) activeBtn.classList.remove('active');
     theBtn.classList.add('active');
-
     if (!operator) {
         operator = btnOperator;
         newLine = true;
@@ -118,39 +130,18 @@ const setOperator = function(btnOperator) {
         if (fNum && !calculated) {
             sNum = parseFloat(screen.textContent);
             operate(fNum, sNum, operator);
+            operator = btnOperator;
+        } else {
+            operator = btnOperator;
+            sNum = null;
         }
-        operator = btnOperator;
     }
 
-    // if (operator === btnOperator && newLine & sNum) {
-    //     operate(fNum, sNum, operator);
-    // } else {
-    //     if(!operator) operator = btnOperator;
-    //     newLine = true;
-    //     if (fNum === null) {
-    //         fNum = parseFloat(screen.textContent);
-    //     } else if (calculated) {
-    //         operator = btnOperator;
-    //         console.log('WHATTTTTT')
-    //     } else {
-    //         sNum = (sNum !== parseFloat(screen.textContent)) ? parseFloat(screen.textContent) : sNum;
-    //         operate(fNum, sNum, operator);
-    //         operator = btnOperator;
-    //     }
-    // }
-    //if(!operator) operator = btnOperator;
-    // newLine = true;
-    // if (fNum === null) {
-    //     fNum = parseFloat(screen.textContent);
-    // } else {
-    //     operator = btnOperator;
-    // }
     if (calculated) calculated = false;
     logging('setOperator end');
 }
 
 const removeNumber = function() {
-    logging('removeNumber start');
     if (screen.textContent === '0') return;
     let screenArr = screen.textContent.split('');
     if (screenArr.length > 1) { 
@@ -161,11 +152,9 @@ const removeNumber = function() {
     }
     screen.textContent = screenArr.join('');
     fNum = (fNum) ? +screenArr.join('') : fNum;
-    logging('removeNumber end');
 }
 
 const toggleMinus = function() {
-    logging('toggleMinus start');
     if (screen.textContent === '0') return;
     let screenArr = screen.textContent.split('');
     if (screenArr[0] === '-') {
@@ -175,7 +164,6 @@ const toggleMinus = function() {
     }
     screen.textContent = screenArr.join('');
     if (fNum && newLine) fNum = +screen.textContent;
-    logging('toggleMinus end');
 }
 
 // add eventlisteners to buttons
