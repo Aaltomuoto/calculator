@@ -104,7 +104,7 @@ button.opBtn {
     background-color: #111;
     color: #FFF;
 }
-button#opBtn.active {
+button.opBtn.active {
     background-color: red;
 }
 button.opBtn:active {
