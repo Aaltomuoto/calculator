@@ -2,13 +2,6 @@
 let fNum = '',
     sNum = '',
     operator = null,
-    // newLine = true,
-    // calculated = false,
-    // activeBtn,
-    // theBtn,
-    // previousValue = '',
-    // currentValue = '';
-    // currentOperator = null,
     reset = false;
 
 const currentScreen = document.querySelector('.current');
@@ -86,11 +79,6 @@ const calculate = function() {
 
 const roundResult = function(num) {
     return Math.round(num * 1000) / 1000;
-}
-
-const updateScreen = function(value = 0) {
-    logging('updateScreen()');
-    //currentScreen.textContent = value;
 }
 
 const addNumber = function(value) {
