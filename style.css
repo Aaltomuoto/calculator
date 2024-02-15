@@ -107,7 +107,7 @@ button#calcBtn {
     color:#FFF;
 }
 button#calcBtn:active {
-    background-color: #FFF;
+    background-color: #009000;
 }
 button.opBtn {
     background-color: #111;
