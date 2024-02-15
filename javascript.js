@@ -1,16 +1,14 @@
 
-let fNum = null,
-    sNum = null,
+let fNum = '',
+    sNum = '',
     operator = null,
-    newLine = true,
-    calculated = false,
+    // newLine = true,
+    // calculated = false,
     // activeBtn,
     // theBtn,
     // previousValue = '',
     // currentValue = '';
-    firstNum = '',
-    secondNum = '',
-    currentOperator = null,
+    // currentOperator = null,
     reset = false;
 
 const currentScreen = document.querySelector('.current');
@@ -25,7 +23,13 @@ const minBtn = document.querySelector('#minBtn')
 
 
 const logging = function(action = 'unknown') {
-    console.table({'Action': action});
+    console.table({
+        'Action': action,
+        'fNum': fNum,
+        'sNum': sNum,
+        'operator': operator,
+        'reset': reset
+    });
 }
 
 const add = function(a, b) {
@@ -96,6 +100,9 @@ const addNumber = function(value) {
     logging('addNumber()');
     if(currentScreen.textContent === '0' || reset) resetScreen()
     currentScreen.textContent += value;
+    fNum = '';
+    sNum = '';
+    operator = null;
     /*
     if (value === '0' && currentScreen.textContent === '0') return;
     if (currentScreen.textContent === 'Error') clear();
@@ -120,6 +127,9 @@ const clearOpBtn = function() {
 */
 const clear = function() {
     logging('clear()');
+    currentScreen.textContent = '0';
+    prevScreen.textContent = '';
+
     /*
     operator = null;
     fNum = null;
