@@ -48,8 +48,39 @@ const divide = function(a, b) {
     return a / b;
 };
 
-const operate = function(first, second, theOperator) {
-    logging('operate()');
+const operate = function(theFirst, theSecond, theOperator) {
+    let result = 'Error';
+    theFirst = Number(theFirst);
+    theSecond = Number(theSecond);
+    switch(theOperator) {
+        case '+':
+            result = add(theFirst, theSecond);
+            break;
+        case '-':
+            result = subtract(theFirst, theSecond);
+            break;
+        case 'x':
+            result = multiply(theFirst, theSecond);
+            break;
+        case '÷':
+            result = divide(theFirst, theSecond);
+            break;
+    }
+    return result;
+}
+
+const calculate = function() {
+    if (operator === null || reset) return;
+    if (operator === '/' && currentScreen.textContent === '0') {
+        clear();
+        reset = true;
+        currentScreen.textContent = 'Error';
+    }
+    sNum = currentScreen.textContent;
+    currentScreen.textContent = roundResult(operate(fNum, sNum, operator));
+    prevScreen.textContent = `${fNum} ${operator} ${sNum} =`
+    operator = null
+    logging('calculate()');
     /*
     if (!first || !second || !theOperator) return;
     if (currentScreen.textContent === 'Error') return;
@@ -90,6 +121,10 @@ const operate = function(first, second, theOperator) {
     logging('calculated');
     */
 };
+
+const roundResult = function(num) {
+    return Math.round(num * 1000) / 1000;
+}
 
 const updateScreen = function(value = 0) {
     logging('updateScreen()');
@@ -148,7 +183,7 @@ const resetScreen = function() {
 }
 
 const setOperator = function(btnOperator) {
-    if (operator !== null) operate()
+    if (operator !== null) calculate()
     fNum = currentScreen.textContent;
     operator = btnOperator;
     prevScreen.textContent = `${fNum} ${operator}`
@@ -229,7 +264,7 @@ opBtn.forEach((button) => {
 clearBtn.addEventListener('click', clear);
 
 calcBtn.addEventListener('click', () => {
-    operate();
+    calculate();
     /*
     if (fNum !== null) {
         if (!calculated) sNum = parseFloat(currentScreen.textContent);
