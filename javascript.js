@@ -4,10 +4,14 @@ let fNum = null,
     operator = null,
     newLine = true,
     calculated = false,
-    activeBtn,
-    theBtn,
-    previousValue = '',
-    currentValue = '';
+    // activeBtn,
+    // theBtn,
+    // previousValue = '',
+    // currentValue = '';
+    firstNum = '',
+    secondNum = '',
+    currentOperator = null,
+    reset = false;
 
 const currentScreen = document.querySelector('.current');
 const prevScreen = document.querySelector('.previous');
@@ -90,6 +94,8 @@ const updateScreen = function(value = 0) {
 
 const addNumber = function(value) {
     logging('addNumber()');
+    if(currentScreen.textContent === '0' || reset) resetScreen()
+    currentScreen.textContent += value;
     /*
     if (value === '0' && currentScreen.textContent === '0') return;
     if (currentScreen.textContent === 'Error') clear();
@@ -125,6 +131,12 @@ const clear = function() {
     logging('clear');
     */
 }
+
+const resetScreen = function() {
+    currentScreen.textContent = '';
+    reset = false;
+}
+
 const setOperator = function(btnOperator) {
     logging('setOperator()');
     /*
