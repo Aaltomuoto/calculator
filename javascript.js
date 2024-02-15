@@ -20,14 +20,8 @@ const delBtn = document.querySelector('#delBtn');
 const minBtn = document.querySelector('#minBtn')
 
 
-const logging = function(where = 'unknown') {
-    console.table({'where': where,
-        'screen':currentScreen.textContent,
-        'fNum':fNum,
-        'sNum':sNum,
-        'operator':operator,
-        'newLine':newLine, 
-        'calculated':calculated});
+const logging = function(action = 'unknown') {
+    console.table({'Action': action});
 }
 
 const add = function(a, b) {
@@ -47,6 +41,8 @@ const divide = function(a, b) {
 };
 
 const operate = function(first, second, theOperator) {
+    logging('operate()');
+    /*
     if (!first || !second || !theOperator) return;
     if (currentScreen.textContent === 'Error') return;
     let result = 'Error';
@@ -84,13 +80,17 @@ const operate = function(first, second, theOperator) {
     calculated = true;
     updateScreen(fNum);
     logging('calculated');
+    */
 };
 
 const updateScreen = function(value = 0) {
-    currentScreen.textContent = value;
+    logging('updateScreen()');
+    //currentScreen.textContent = value;
 }
 
 const addNumber = function(value) {
+    logging('addNumber()');
+    /*
     if (value === '0' && currentScreen.textContent === '0') return;
     if (currentScreen.textContent === 'Error') clear();
     let displayValue = (newLine && value !== '.') ? value : currentScreen.textContent + value;
@@ -103,13 +103,18 @@ const addNumber = function(value) {
         }
     }
     updateScreen(displayValue);
+    */
 }
+/*
 const clearOpBtn = function() {
     opBtn.forEach(button => {
         button.classList.remove('active');
     });
 }
+*/
 const clear = function() {
+    logging('clear()');
+    /*
     operator = null;
     fNum = null;
     sNum = null;
@@ -118,8 +123,11 @@ const clear = function() {
     clearOpBtn();
     updateScreen();
     logging('clear');
+    */
 }
 const setOperator = function(btnOperator) {
+    logging('setOperator()');
+    /*
     logging('setOperator start');
     if (screen.textContent === 'Error') return;
     activeBtn = document.querySelector('.opBtn.active');
@@ -144,9 +152,12 @@ const setOperator = function(btnOperator) {
 
     if (calculated) calculated = false;
     logging('setOperator end');
+    */
 }
 
 const removeNumber = function() {
+    logging('removeNumber()');
+    /*
     if (currentScreen.textContent === '0') return;
     let screenArr = currentScreen.textContent.split('');
     if (screenArr.length > 1) { 
@@ -157,9 +168,12 @@ const removeNumber = function() {
     }
     currentScreen.textContent = screenArr.join('');
     fNum = (fNum) ? +screenArr.join('') : fNum;
+    */
 }
 
 const toggleMinus = function() {
+    logging('toggleMinus()');
+    /*
     if (currentScreen.textContent === '0') return;
     let screenArr = screen.textContent.split('');
     if (screenArr[0] === '-') {
@@ -169,6 +183,7 @@ const toggleMinus = function() {
     }
     screen.textContent = screenArr.join('');
     if (fNum && newLine) fNum = +currentScreen.textContent;
+    */
 }
 
 // add eventlisteners to buttons
@@ -187,6 +202,8 @@ opBtn.forEach((button) => {
 clearBtn.addEventListener('click', clear);
 
 calcBtn.addEventListener('click', () => {
+    operate();
+    /*
     if (fNum !== null) {
         if (!calculated) sNum = parseFloat(currentScreen.textContent);
         operate(fNum, sNum, operator);
@@ -194,6 +211,7 @@ calcBtn.addEventListener('click', () => {
     } else {
         clear();
     }
+    */
 });
 
 decBtn.addEventListener('click', (button) => {
@@ -204,83 +222,3 @@ delBtn.addEventListener('click', removeNumber);
 
 minBtn.addEventListener('click', toggleMinus);
 
-// let operator = null,
-//     previousValue = '',
-//     currentValue = '';
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     const currentScreen = document.querySelector('.current');
-//     const prevScreen = document.querySelector('.previous');
-//     const numBtn = document.querySelectorAll('#btnContainer button.numBtn');
-//     const opBtn = document.querySelectorAll('#btnContainer button.opBtn');
-//     const clearBtn = document.querySelector('#clearBtn');
-//     const calcBtn = document.querySelector('#calcBtn');
-//     const decBtn = document.querySelector('#decBtn');
-//     const delBtn = document.querySelector('#delBtn');
-//     const minBtn = document.querySelector('#minBtn')
-
-//     numBtn.forEach((number) => number.addEventListener('click', (e) => {
-//         handleNumber(e.target.textContent);
-//         currentScreen.textContent = currentValue;
-//     }));
-
-//     opBtn.forEach((op) => {
-//         op.addEventListener('click', () => {
-//             handleOperator(op.dataset.operator);
-//             prevScreen.textContent = previousValue;
-//             currentScreen.textContent = currentValue;
-//         })
-//     });
-
-//     clearBtn.addEventListener('click', () => {
-//         previousValue = '';
-//         currentValue = '';
-//         operator = '';
-//         prevScreen.textContent = currentValue;
-//         currentScreen.textContent = currentValue;
-//     });
-
-//     calcBtn.addEventListener('click', () => {
-//         calculate()
-//         prevScreen.textContent = '';
-//         currentScreen.textContent = currentValue;
-//     });
-// });
-
-// function handleNumber(num) {
-//    if (currentValue.length <=10) currentValue += num;
-// }
-
-// function handleOperator(op) {
-//     operator = op;
-//     previousValue = currentValue;
-//     currentValue = '';
-// }
-
-// function calculate() {
-//     previousValue = Number(previousValue);
-//     currentValue = Number(currentValue);
-
-//     switch(operator) {
-//         case 'add':
-//             previousValue += currentValue;
-//             break;
-//         case 'subtract':
-//             previousValue -= currentValue;
-//             break;
-//         case 'multiply':
-//             previousValue *= currentValue;
-//             break;
-//         case 'divide':
-//             previousValue /= currentValue;
-//             break;
-//     }
-//     previousValue = roundNumber(previousValue);
-//     previousValue = previousValue.toString();
-//     currentValue = previousValue;
-//     console.log(previousValue)
-// }
-
-// function roundNumber(num) {
-//     return Math.round(num * 1000) / 1000;
-// }
