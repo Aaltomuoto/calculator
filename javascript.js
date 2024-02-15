@@ -97,12 +97,9 @@ const updateScreen = function(value = 0) {
 }
 
 const addNumber = function(value) {
-    logging('addNumber()');
     if(currentScreen.textContent === '0' || reset) resetScreen()
     currentScreen.textContent += value;
-    fNum = '';
-    sNum = '';
-    operator = null;
+    logging('addNumber()');
     /*
     if (value === '0' && currentScreen.textContent === '0') return;
     if (currentScreen.textContent === 'Error') clear();
@@ -126,9 +123,12 @@ const clearOpBtn = function() {
 }
 */
 const clear = function() {
-    logging('clear()');
     currentScreen.textContent = '0';
     prevScreen.textContent = '';
+    fNum = '';
+    sNum = '';
+    operator = null;
+    logging('clear()');
 
     /*
     operator = null;
@@ -148,6 +148,11 @@ const resetScreen = function() {
 }
 
 const setOperator = function(btnOperator) {
+    if (operator !== null) operate()
+    fNum = currentScreen.textContent;
+    operator = btnOperator;
+    prevScreen.textContent = `${fNum} ${operator}`
+    reset = true;
     logging('setOperator()');
     /*
     logging('setOperator start');
@@ -217,7 +222,7 @@ numBtn.forEach((button) => {
 
 opBtn.forEach((button) => {
     button.addEventListener('click', () => {
-        setOperator(button.dataset.operator);
+        setOperator(button.textContent);
     });
 });
 
