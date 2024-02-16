@@ -46,16 +46,16 @@ const operate = function(theFirst, theSecond, theOperator) {
     theFirst = Number(theFirst);
     theSecond = Number(theSecond);
     switch(theOperator) {
-        case 'add':
+        case '+':
             result = add(theFirst, theSecond);
             break;
-        case 'subtract':
+        case '-':
             result = subtract(theFirst, theSecond);
             break;
-        case 'multiply':
+        case 'x':
             result = multiply(theFirst, theSecond);
             break;
-        case 'divide':
+        case '÷':
             result = divide(theFirst, theSecond);
             break;
     }
@@ -64,7 +64,7 @@ const operate = function(theFirst, theSecond, theOperator) {
 
 const calculate = function() {
     if (operator === null || reset) return;
-    if (operator === 'divide' && currentScreen.textContent === '0') {
+    if (operator === '÷' && currentScreen.textContent === '0') {
         clear();
         reset = true;
         currentScreen.textContent = 'Error';
@@ -149,7 +149,7 @@ numBtn.forEach((button) => {
 
 opBtn.forEach((button) => {
     button.addEventListener('click', () => {
-        setOperator(button.dataset.operator);
+        setOperator(button.textContent);
     });
 });
 
