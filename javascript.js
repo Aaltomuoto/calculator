@@ -73,7 +73,8 @@ const calculate = function() {
     sNum = currentScreen.textContent;
     currentScreen.textContent = roundResult(operate(fNum, sNum, operator));
     prevScreen.textContent = `${fNum} ${operator} ${sNum} =`
-    operator = null
+    operator = null;
+    reset = true;
     logging('calculate()');
 };
 
