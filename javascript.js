@@ -113,14 +113,16 @@ const setOperator = function(btnOperator) {
 }
 
 const removeNumber = function() {
-    currentScreen.textContent = (currentScreen.textContent.toString().length > 1) ? 
-        currentScreen.textContent.toString().slice(0,-1) : 
-        currentScreen.textContent;
+    let currentNum = currentScreen.textContent.toString();
+    currentScreen.textContent = (currentNum.length > 1) ? 
+        currentNum.slice(0,-1) : 
+        currentNum;
     logging('removeNumber()');
 }
 
 const toggleMinus = function() {
     logging('toggleMinus()');
+    if (currentScreen.textContent.toString() === '0') return;
     /*
     if (currentScreen.textContent === '0') return;
     let screenArr = screen.textContent.split('');
