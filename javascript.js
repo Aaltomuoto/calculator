@@ -132,6 +132,14 @@ const toggleMinus = function() {
     logging('toggleMinus()');
 }
 
+
+const addPoint = function() {
+    if (reset) resetScreen();
+    if (currentScreen.textContent.includes('.')) return
+    if (currentScreen.textContent === '') currentScreen.textContent = '0';
+    currentScreen.textContent += '.'
+    logging('addPoint()');
+}
 // add eventlisteners to buttons
 numBtn.forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -149,19 +157,10 @@ clearBtn.addEventListener('click', clear);
 
 calcBtn.addEventListener('click', () => {
     calculate();
-    /*
-    if (fNum !== null) {
-        if (!calculated) sNum = parseFloat(currentScreen.textContent);
-        operate(fNum, sNum, operator);
-        clearOpBtn();
-    } else {
-        clear();
-    }
-    */
 });
 
-decBtn.addEventListener('click', (button) => {
-    //addNumber('.');
+decBtn.addEventListener('click', () => {
+    addPoint();
 });
 
 delBtn.addEventListener('click', removeNumber);
