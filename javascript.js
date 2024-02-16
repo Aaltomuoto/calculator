@@ -113,19 +113,10 @@ const setOperator = function(btnOperator) {
 }
 
 const removeNumber = function() {
+    currentScreen.textContent = (currentScreen.textContent.toString().length > 1) ? 
+        currentScreen.textContent.toString().slice(0,-1) : 
+        currentScreen.textContent;
     logging('removeNumber()');
-    /*
-    if (currentScreen.textContent === '0') return;
-    let screenArr = currentScreen.textContent.split('');
-    if (screenArr.length > 1) { 
-        screenArr.pop();
-    } else {
-        screenArr = [0];
-        newLine = true;
-    }
-    currentScreen.textContent = screenArr.join('');
-    fNum = (fNum) ? +screenArr.join('') : fNum;
-    */
 }
 
 const toggleMinus = function() {
@@ -172,7 +163,7 @@ calcBtn.addEventListener('click', () => {
 });
 
 decBtn.addEventListener('click', (button) => {
-    addNumber('.');
+    //addNumber('.');
 });
 
 delBtn.addEventListener('click', removeNumber);
