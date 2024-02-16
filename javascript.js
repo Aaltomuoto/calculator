@@ -121,19 +121,15 @@ const removeNumber = function() {
 }
 
 const toggleMinus = function() {
-    logging('toggleMinus()');
-    if (currentScreen.textContent.toString() === '0') return;
-    /*
-    if (currentScreen.textContent === '0') return;
-    let screenArr = screen.textContent.split('');
-    if (screenArr[0] === '-') {
-        screenArr.shift();
+    let currentNum = currentScreen.textContent.split('');
+    if (currentNum[0] === '0') return;
+    if (currentNum[0] === '-') {
+        currentNum.shift();
     } else {
-        screenArr.unshift('-');
+        currentNum.unshift('-');
     }
-    screen.textContent = screenArr.join('');
-    if (fNum && newLine) fNum = +currentScreen.textContent;
-    */
+    currentScreen.textContent = currentNum.join('');
+    logging('toggleMinus()');
 }
 
 // add eventlisteners to buttons
