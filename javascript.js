@@ -99,6 +99,7 @@ const clear = function() {
 
 const resetScreen = function() {
     currentScreen.textContent = '';
+    if (!operator) prevScreen.textContent = '';
     reset = false;
 }
 
